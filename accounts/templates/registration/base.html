@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<title>{% block title %}{% if page_title %}{{ page_title }} - {% endif %}
+		{{ site_name }}{% endblock %}
+	</title>
+
+	<meta name="keywords" content="{{ meta_keywords }}" />
+	<meta name="description" content="{{ meta_description }}" />
+
+	{% load staticfiles %}
+
+	<link rel="stylesheet" type="text/css" href="{% static 'catalog/styles/styles.css' %}" />
+	<link rel="stylesheet" type="text/css" href="{% static 'catalog/styles/bootstrap.min.css' %}" />
+
+</head>
+
+<body>
+	{% block site_wrapper %}{% endblock %}
+
+	<script type="text/javascript" src="{% static 'catalog/scripts/jquery-1.11.3.js'%}"></script>
+	<script type="text/javascript" src="{% static 'catalog/scripts/bootstrap.min.js'%}"></script>
+	
+</body>
+
+</html>

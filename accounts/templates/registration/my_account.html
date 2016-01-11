@@ -1,0 +1,66 @@
+{% extends 'catalog/base.html' %}
+
+{% block site_wrapper %}
+{% load staticfiles %}
+		<div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xs-offset-0 col-sm-offset-0 col-md-offset-3 col-lg-offset-3" >
+            {% if warning %}
+              <div class="alert alert-warning alert-dismissable">
+                  <button type="button" class="close" data-dismiss="alert" aria-hidden="true"></button>
+                  {{ warning }}
+              </div>
+            {% endif %}
+          <div class="panel panel-info">
+            <div class="panel-heading">
+              <h3 class="panel-title">Manage Profile </h3>
+            </div>
+            <div class="panel-body">
+              <div class="row">
+                <div class="col-md-3 col-lg-3 " align="center"> 
+                	<img alt="User Pic" height="300" width="300" src="{% static 'catalog/images/users/' %}{{ u_details.image }}" class="img-circle img-responsive"> 
+                </div>
+                
+                <div class=" col-md-9 col-lg-9 "> 
+                  <table class="table table-user-information">
+                    <tbody>
+                      <tr>
+                        <td>First Name:</td>
+                        <td>{{ user.first_name }}</td>
+                      </tr>
+                      <tr>
+                        <td>Last Name:</td>
+                        <td>{{ user.last_name }}</td>
+                      </tr>
+                      <tr>
+                        <td>Password:</td>
+                        <td>xxxxxxxxxxxxxxxx</td>
+                      </tr>
+                      <tr>
+                        <td>Phone No:</td>
+                        <td>+91-{{ u_details.contact }}</td>
+                      </tr>
+                      <tr>
+                        <td>Gender:</td>
+                        <td>{{ u_details.sex }}</td>
+                      </tr>
+                      <tr>
+                        <td>Billing Address</td>
+                        <td>{{ u_details.address }}</td>
+                      </tr>
+                      <tr>
+                        <td>Email:</td>
+                        <td>{{ user.email }}</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+            <form action="." method="get">
+              {% csrf_token %}
+                 <div class="panel-footer">
+                        <input type="submit" name="submit" class="btn btn-sm btn-info" value="edit" />
+                  </div>
+            </form>
+          </div>
+        </div>
+{% endblock %}

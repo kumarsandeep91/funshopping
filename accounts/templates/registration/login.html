@@ -1,0 +1,82 @@
+{% extends "catalog/base.html" %}
+
+{% block site_wrapper %}
+{% load staticfiles %}
+
+		<section class="container-fluid" id="section1">
+    		<div class="row v-center">
+    			<div class="alert alert-danger alert-dismissable" id="id_status">
+	                <button type="button" class="close" data-dismiss="alert" aria-hidden="true"></button>
+	
+	            </div>
+	            <!--hide the error message block -->
+	            <script type="text/javascript" language="javascript">
+					document.getElementById('id_status').style.display = 'none';
+				</script>
+    			{% if warning %}
+	            <div class="alert alert-warning alert-dismissable">
+	                <button type="button" class="close" data-dismiss="alert" aria-hidden="true"></button>
+	                {{ warning }}
+	            </div>
+        		{% endif %}
+				<div class="col-sm-6 col-sm-offset-3 col-xs-10 col-xs-offset-1">
+					<div>
+						<h2 class="text-center"><img src="{% static 'catalog/images/login.jpg' %}" width="110px" height="110px" class="img-circle"><br>Login</h2>
+				    	<h6 class="text-center">COMPLETE THESE FIELDS TO SIGN IN</h6>
+				      	<form method="post" role="form">
+				      		{% csrf_token %}
+				            <div class="form-group">
+				                <input type="text" name="username" id="id_usr" class="form-control input-lg" placeholder="username">
+				            </div>
+				            <div class="form-group">
+				                <input type="password" name="password" id="id_pwd" class="form-control input-lg" placeholder="Password">
+				            </div>
+				            <div class="form-group">
+				                <input type="submit" name="submit" value="Sign In" class="btn btn-info btn-lg btn-block" onClick="return check_login();" />
+				                <span class="pull-right"><a href="/accounts/register">Register</a></span>
+				            </div>
+				        </form>
+				  	</div>
+				</div>
+       		</div>
+		</section>
+
+		<script language="javascript">
+			function isEmpty(id)
+			{
+			    if(document.getElementById(id).value.length == 0)
+			        return true;
+			    else
+			        return false;
+			}
+			function isMinLen(id)
+			{
+			    if(document.getElementById(id).value.length<6)
+			        return true;
+			    else
+			        return false;
+			}
+
+			function check_login()
+			{
+				document.getElementById('id_status').style.display = 'block';
+				if(isEmpty('id_usr') || isEmpty('id_pwd'))
+				{
+					document.getElementById('id_status').innerHTML = "Enter all details";
+					return false;
+				}
+				else
+					if(isMinLen('id_usr') || isMinLen('id_pwd'))
+					{
+						document.getElementById('id_status').innerHTML = "Username/Password must be 6 character long";
+						return false;
+					}
+					else
+					{
+						document.getElementById('id_status').style.display = 'none';
+					}
+			}
+		</script>
+
+
+{% endblock %}

@@ -1,0 +1,119 @@
+{% extends "catalog/base.html" %}
+
+{% block site_wrapper %}
+{% load staticfiles %}
+
+<div class="container">
+	<div class="row">
+        <div class="col-sm-12 col-md-10 col-md-offset-1">
+            <table class="table table-hover" id="shopping_cart">
+                <thead>
+                    <tr>
+                        <th>Product</th>
+                        <th class="text-center">Price</th>
+                        <th>Quantity</th>
+                        <th> </th>
+                        <th> </th>
+                        <th class="text-center">Total</th>
+                        
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in c %}
+                        <tr>
+                            <!--first column-->
+                            <td class="col-sm-8 col-md-6">
+                                <div class="media">
+                                    <a class="thumbnail pull-left" href="/catalog/product/{{ item.product.slug }}"> 
+                                        <img class="media-object" src="{% static 'catalog/images/' %}{{ item.product.image }}" style="width: 72px; height: 72px;"> 
+                                    </a>
+                                    <div class="media-body">
+                                        <h4 class="media-heading"><a href="/catalog/product/{{ item.product.slug }}">{{ item.product.name }}</a></h4>
+                                        <h5 class="media-heading"> by <a href="#">{{ item.product.brand }}</a></h5>
+                                        <span>Status: </span><span class="text-success"><strong>In Stock</strong></span>
+                                    </div>
+                                </div>
+                            </td>
+
+                            <!--second col -->    
+                            <td class="col-sm-1 col-md-1" style="text-align: center">
+                                <strong>${{ item.product.price }}</strong>
+                                
+                            </td>
+
+                            <!--third col -->  
+                            <form method="post" action="." class="cart"> 
+                            {% csrf_token %} 
+                                <td class="col-sm-1 col-md-1" style="text-align: center">
+                                    <input type="text" name="quantity" class="form-control" id="quantity" size="2" value="{{ item.quantity }}">
+                                    <input type="hidden" name="item_id" class="form-control" value="{{ item.id }}">
+                                </td>
+
+                                <!--4 column-->
+
+                                <td class="col-sm-1 col-md-1 text-center">
+                                    <input type="submit" class="btn btn-success" name="submit" value="Update" />
+                                </td>
+                            </form>
+
+                            <form method="post" action="." class="cart">
+                                {% csrf_token %}
+                                <!--5 column -->
+                                <td class="col-sm-1 col-md-1">
+                                    <input type="hidden" name="item_id" value="{{ item.id }}" />
+                                    <input type="submit" name="submit" class="btn btn-danger" value="Remove" />
+                                </td>
+                            </form>
+                                <td class="col-sm-1 col-md-1 text-center">
+                                    <strong>${{ item.total }}</strong>
+                                </td>
+                        </tr>
+                        <!--end row-->
+                    {% endfor %}
+                    <tr>
+                        <td>   </td>
+                        <td>   </td>
+                        <td>   </td>
+                        <td>   </td>
+                        <td><h5>Subtotal</h5></td>
+                        <td class="text-right"><h5><strong>${{ subtotal }}</strong></h5></td>
+                    </tr>
+                    <tr>
+                        <td>   </td>
+                        <td>   </td>
+                        <td>   </td>
+                        <td>   </td>
+                        <td><h5>Estimated shipping</h5></td>
+                        <td class="text-right"><h5><strong>$0.00</strong></h5></td>
+                    </tr>
+                    <tr>
+                        <td>   </td>
+                        <td>   </td>
+                        <td>   </td>
+                        <td>   </td>
+                        <td><h3>Total</h3></td>
+                        <td class="text-right"><h3><strong>${{ subtotal }}</strong></h3></td>
+                    </tr>
+                    <tr>
+                        <td>   </td>
+                        <td>   </td>
+                        <td>   </td>
+                        <td>   </td>
+                        <td>
+                            <a href="/catalog">
+                                <button type="button" class="btn btn-default">
+                                    <span class="glyphicon glyphicon-shopping-cart"></span> Continue Shopping
+                                </button>
+                            </a>
+                        </td>
+                        <td>
+                        <button type="button" class="btn btn-success">
+                            Checkout <span class="glyphicon glyphicon-play"></span>
+                        </button></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}

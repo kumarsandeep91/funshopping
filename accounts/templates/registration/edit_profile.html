@@ -1,0 +1,96 @@
+{% extends 'catalog/base.html' %}
+
+{% block site_wrapper %}
+{% load staticfiles %}
+		<div class="col-xs-12 col-md-6 col-md-offset-3" >
+            {% if warning %}
+              <div class="alert alert-warning alert-dismissable">
+                  <button type="button" class="close" data-dismiss="alert" aria-hidden="true"></button>
+                  {{ warning }}
+              </div>
+            {% endif %}
+          <div class="panel panel-info">
+            <div class="panel-heading">
+              <h3 class="panel-title">Manage Profile </h3>
+            </div>
+            <div class="panel-body">
+              <div class="row">
+                <div class="col-xs-12 col-md-3"> 
+                	<img alt="User Pic" height="300" width="300" src="{% static 'catalog/images/users/' %}{{ u_details.image }}" class="img-circle img-responsive"> 
+                </div>
+                
+                <div class="col-xs-12 col-md-9"> 
+                  <table class="table table-user-information">
+                    <form action="." method="get">
+                      {% csrf_token %}
+                    <tbody>
+                      <tr>
+                        <td>First Name:</td>
+                        <td>
+                          <div class="form-group">
+                              <input type="text" name="f_name" class="form-control" value="{{ user.first_name }}">
+                          </div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>Last Name:</td>
+                        <td>
+                          <div class="form-group">
+                              <input type="text" name="l_name" class="form-control" value="{{ user.last_name }}">
+                          </div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>Password:</td>
+                        <td>
+                            <div class="panel-footer">
+                                  <input type="submit" name="submit" class="btn btn-sm btn-danger" value="reset password" alt="reset password" />
+                            </div>
+                        </td>
+                      </tr>
+
+                      <tr>
+                        <td>Phone:</td>
+                        <td>
+                          <div class="form-group">
+                              <input type="text" name="contact" class="form-control" value="{{ u_details.contact }}">
+                          </div>
+                        </td>
+                      </tr>
+                   
+                      <tr>
+                        <td>Gender:</td>
+                        <td>
+                          <div class="form-group">
+                              <input type="text" name="sex" class="form-control" value="{{ u_details.sex }}">
+                          </div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>Billing Address</td>
+                        <td>
+                          <div class="form-group">
+                              <textarea rows="4" cols="30" name="contact">{{ u_details.address }}
+                              </textarea>
+                          </div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>Email:</td>
+                        <td>{{ user.email }}</td>
+                      </tr>
+                    </tbody>
+                 
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+            
+                 <div class="panel-footer">
+                        <input type="submit" name="submit" class="btn btn-sm btn-info" value="save" alt="save" />
+                  </div>
+            </form>
+          </div>
+        </div>
+{% endblock %}

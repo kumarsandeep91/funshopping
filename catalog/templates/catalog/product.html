@@ -1,0 +1,90 @@
+{% extends "catalog/base.html" %}
+
+{% block product %}
+{% load staticfiles %}
+
+<div class="container-fluid">
+    <div class="content-wrapper">	
+		<div class="item-container">	
+			<div class="container">	
+				<div class="row">
+					
+						<div class="product col-md-3 service-image-left">
+	                    
+							<center>
+								<img id="item-display" src="{% static 'catalog/images/' %}{{ image }}" alt=""></img>
+							</center>
+						</div>
+					
+				
+
+				
+					<div class="col-md-7">
+						<div class="product-title">{{ name }}</div>
+						<div class="product-desc">
+							Brand: {{ brand }}
+						</div>
+						<div class="product-rating"><i class="fa fa-star gold"></i> <i class="fa fa-star gold"></i> <i class="fa fa-star gold"></i> <i class="fa fa-star gold"></i> <i class="fa fa-star-o"></i> </div>
+						<hr>
+						<div class="product-price">
+							{% if p.sale_price %}
+								Was: <del>$ {{ old_price }}</del>
+								<br />
+								Now: $ {{ price }}
+								{% else %}
+								Price: $ {{ price }}
+							{% endif %}		
+						</div>
+						{% if quantity > 0 %}
+							<div class="product-stock">In Stock</div>
+						{% else %}
+							<div class="product-out-stock">Out of Stock</div>
+						{% endif %}
+						<hr>
+						<div class="btn-group cart">
+							<form method="post" action="." class="cart">
+								{% csrf_token %}
+								{{ form.as_p }}
+								<br />
+								<input type="submit" class="btn btn-success" value="Add To Cart" name="submit" alt="Add To Cart" />
+			
+							</form>
+							
+							<div class="cb"></div>
+						</div>
+					</div>
+				</div>
+			</div> 
+		</div>
+		<div class="container-fluid">		
+			<div class="col-md-12 product-info">
+					<ul id="myTab" class="nav nav-tabs nav_tabs">
+						
+						<li class="active"><a href="#service-one" data-toggle="tab">DESCRIPTION</a></li>
+						
+					</ul>
+				<div id="myTabContent" class="tab-content">
+						<div class="tab-pane fade in active" id="service-one">
+						 
+							<section class="container product-info">
+								{{ description }}
+							</section>
+										  
+						</div>
+					<div class="tab-pane fade" id="service-two">
+						
+						<section class="container">
+								
+						</section>
+						
+					</div>
+					<div class="tab-pane fade" id="service-three">
+												
+					</div>
+				</div>
+				<hr>
+			</div>
+		</div>
+	</div>
+</div>
+{% endblock %}
