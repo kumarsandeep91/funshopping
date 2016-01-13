@@ -5,6 +5,7 @@ from django.db import models
 # Create your models here.
 class User_Details(models.Model):
 	user = models.OneToOneField(User, on_delete=models.CASCADE)
+	u_type = models.BooleanField()
 	sex = models.CharField(max_length=10)
 	address = models.TextField(default="no address")
 	contact = models.BigIntegerField(default=1234567890)
