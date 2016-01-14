@@ -15,19 +15,33 @@ def register(request, template_name="registration/register.html"):
 	elif request.method == 'POST':
 		f_name = request.POST['f_name']
 		l_name = request.POST['l_name']
-	#	phone = request.POST['phone']
+		phone = request.POST['phone']
 		username = request.POST['username']
 		email = request.POST['email']
 		password = request.POST['password']
 		re_password = request.POST['confirmation']
+		"""
+			determining user type i.e buyer or seller and assigning them a integer value
+		"""
+		if request.POST['type'] == 'buyer':
+			u_type = 0
+		else:
+			u_type = 1
+
 		if password == re_password:
 			# call create_user from ORM,
 			user = auth.models.User.objects.create_user(username,email,password)
 			user.first_name = f_name
 			user.last_name = l_name
 			user.save()
+
 			new_user = auth.authenticate(username=username, password=password)
 			if new_user is not None:
+				"""adding users extra details"""
+				u_details = User_Details.objects.get(user=new_user.id)
+				u_details.u_type = u_type
+				u_details.contact = phone
+				u_details.save()
 				if new_user.is_active:
 					auth.login(request, new_user)
 					return redirect('/catalog')

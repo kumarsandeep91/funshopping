@@ -5,8 +5,13 @@ from django.db import models
 # Create your models here.
 class User_Details(models.Model):
 	user = models.OneToOneField(User, on_delete=models.CASCADE)
-	u_type = models.BooleanField()
-	sex = models.CharField(max_length=10)
+	"""
+	User type:
+		Buyer: 0
+		Seller: 1
+	"""
+	u_type = models.PositiveSmallIntegerField(default=0)
+	sex = models.CharField(max_length=10, blank=True)
 	address = models.TextField(default="no address")
 	contact = models.BigIntegerField(default=1234567890)
-	image = models.CharField(max_length=50)
+	image = models.CharField(max_length=50, default="default.jpg")
