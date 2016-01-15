@@ -37,13 +37,13 @@ def register(request, template_name="registration/register.html"):
 
 			new_user = auth.authenticate(username=username, password=password)
 			if new_user is not None:
-				"""adding users extra details"""
-				u_details = User_Details.objects.get(user=new_user.id)
-				u_details.u_type = u_type
-				u_details.contact = phone
-				u_details.save()
 				if new_user.is_active:
 					auth.login(request, new_user)
+					"""adding users extra details"""
+					u_details = User_Details.objects.get(user=new_user.id)
+					u_details.u_type = u_type
+					u_details.contact = phone
+					u_details.save()
 					return redirect('/catalog')
 				else:
 					warning = "User already exists or not active"
