@@ -6,17 +6,22 @@ from cart import cart
 from django.http import HttpResponseRedirect
 from cart.forms import ProductAddToCartForm
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import User
+from accounts.models import User_Details
 
-
+@login_required
 def index(request, template_name="catalog/catalog.html"):
 	page_title = 'A Online Store'
-	if request.user.is_authenticated():
+	u = User_Details.objects.get(user=request.user.id)
+	if u.u_type == 1:
+		template_name="catalog/seller.html"
+		return render_to_response(template_name, locals(),
+			context_instance=RequestContext(request))
+	else:
 		products = Product.objects.all()
 		
 		return render_to_response(template_name, locals(),
 			context_instance=RequestContext(request))
-	else:
-		return redirect('/accounts/login')
 
 def show_category(request, category_slug, template_name="catalog/category.html"):
 	c = get_object_or_404(Category, slug=category_slug)

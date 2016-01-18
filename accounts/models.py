@@ -14,4 +14,4 @@ class User_Details(models.Model):
 	sex = models.CharField(max_length=10, blank=True)
 	address = models.TextField(default="no address")
 	contact = models.BigIntegerField(default=1234567890)
-	image = models.CharField(max_length=50, default="default.jpg")
+	image = models.CharField(max_length=50, default="default.png")

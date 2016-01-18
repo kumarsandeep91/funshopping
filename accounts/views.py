@@ -34,25 +34,12 @@ def register(request, template_name="registration/register.html"):
 			user.first_name = f_name
 			user.last_name = l_name
 			user.save()
-
-			new_user = auth.authenticate(username=username, password=password)
-			if new_user is not None:
-				if new_user.is_active:
-					auth.login(request, new_user)
-					"""adding users extra details"""
-					u_details = User_Details.objects.get(user=new_user.id)
-					u_details.u_type = u_type
-					u_details.contact = phone
-					u_details.save()
-					return redirect('/catalog')
-				else:
-					warning = "User already exists or not active"
-					return render_to_response(template_name, locals(),
-						context_instance=RequestContext(request)) 
-			else:
-				warning = "Enter correct details."
-				return render_to_response(template_name, locals(),
-					context_instance=RequestContext(request))
+			"""adding users extra details"""
+			u_details = User_Details(user=User.objects.get(id=user.id))
+			u_details.u_type = u_type
+			u_details.contact = phone
+			u_details.save()
+			return redirect('/accounts/login')
 		else:
 			warning = "Password does not matched"
 			return render_to_response(template_name, locals(),
@@ -72,9 +59,9 @@ def login(request, template_name="registration/login.html"):
 		if user is not None:
 			if user.is_active:
 				auth.login(request, user)
-				#return redirect("/catalog/home")
 				# for saving destination
-				
+				u_details = User_Details.objects.get(user=request.user.id)
+
 				next = ""
 				if next in request.GET:
 					next = request.GET["next"]
@@ -113,7 +100,14 @@ def my_account(request, template_name="registration/my_account.html"):
 					u.first_name = getdata['f_name']
 				if getdata['l_name']:
 					u.last_name = getdata['l_name']
+				if getdata['contact']:
+					u_details.contact = getdata['contact']
+				if getdata['sex']:
+					u_details.sex = getdata['sex']
+				if getdata['address']:
+					u_details.address = getdata['address']
 				u.save()
+				u_details.save()
 				warning = "Profile updated successfully"
 				return render_to_response(template_name, locals(),
 					context_instance=RequestContext(request))
@@ -129,20 +123,24 @@ def my_account(request, template_name="registration/my_account.html"):
 	elif request.method == 'POST':
 		postdata = request.POST.copy()
 		if 'submit' in postdata:
-			# use check_password() function of auth module
-			user = auth.authenticate(username=request.user.username, password=postdata['curr_password'])
+			user = User.objects.get(id=request.user.id)
 			if user is not None:
 				if postdata['submit'] == "change":
-					#change password in database
-					if postdata['new_password'] == postdata['re_password']:
-						user.set_password(postdata['new_password'])
-						user.save()
-						warning = "Password changed successfully"
+					#check current password
+					if user.check_password(postdata['curr_password']):
+						#change password in database
+						if postdata['new_password'] == postdata['re_password']:
+							user.set_password(postdata['new_password'])
+							user.save()
+							warning = "Password changed successfully"
+							#redirect to login page
+							return redirect('/accounts/login')
+						else:
+							warning = "Password does not matched"
+							template_name="registration/change_password.html"
 					else:
-						warning = "Password does not matched"
+						warning = "Invalid current password"
 						template_name="registration/change_password.html"
-			else:
-				warning = "Current password is invalid"
 
 			return render_to_response(template_name, locals(),
 				context_instance=RequestContext(request))
