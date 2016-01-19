@@ -2,7 +2,45 @@
 
 {% block site_wrapper %}
 {% load staticfiles %}
-	<h2>Page is under construction</h2>
+	<div class="row">
+		<div class="col-sm-12 col-md-6 text-center">
+			<button type="button" class="btn btn-primary">Add Product</button>
+		</div>
+		<div class="col-sm-12 col-md-6 text-center">
+			<button type="button" class="btn btn-primary">Update Product</button>
+		</div>
+		<hr />
+		<!--table for product details-->
+		<div class="container">
+		  <h2 class="text-center">Status</h2>                                                   
+		  <div class="table-responsive">          
+		  	<table class="table">
+				<thead>
+			    	<tr>
+				        <th>PID</th>
+				        <th>Added At</th>
+				        <th>Name</th>
+				        <th>Price</th>
+				        <th>Quantity</th>
+				        <th>Sold</th>
+				        <th>Balance</th>
+			    	</tr>
+			    </thead>
+			    <tbody>
+			    	<tr>
+				        <td>1</td>
+				        <td>#####</td>
+				        <td>ipod</td>
+				        <td>$250</td>
+				        <td>35</td>
+				        <td>5</td>
+				        <td>30</td>
+			    	</tr>
+			    </tbody>
+			</table>
+		  </div>
+		</div>
+	</div>
 {% endblock %}
 
 
