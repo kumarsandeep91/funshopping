@@ -1,6 +1,8 @@
 from __future__ import unicode_literals
 
 from django.db import models
+from accounts.models import User_Details
+import datetime
 
 # Create your models here.
 class Category(models.Model):
@@ -31,14 +33,16 @@ class Product(models.Model):
 		help_text='Unique value for product page URL, created from name.')
 	brand = models.CharField(max_length=50)
 	sku = models.CharField(max_length=50)
-	price = models.DecimalField(max_digits=9,decimal_places=2)
-	old_price = models.DecimalField(max_digits=9,decimal_places=2,
-		blank=True,default=0.00)
+	#added to SellerProduct model
+	#price = models.DecimalField(max_digits=9,decimal_places=2)
+	#old_price = models.DecimalField(max_digits=9,decimal_places=2,
+	#	blank=True,default=0.00)
 	image = models.CharField(max_length=50)
 	is_active = models.BooleanField(default=True)
 	is_bestseller = models.BooleanField(default=False)
 	is_featured = models.BooleanField(default=False)
-	quantity = models.IntegerField()
+	#added to SellerProduct model
+	#quantity = models.IntegerField()
 	description = models.TextField()
 	meta_keywords = models.CharField(max_length=255,
 		help_text='Comma-delimited set of SEO keywords for meta tag')
@@ -55,9 +59,19 @@ class Product(models.Model):
 	@models.permalink
 	def get_absolute_url(self):
 		return ('catalog_product', (), { 'product_slug': self.slug })
+	"""
 	def sale_price(self):
 		if self.old_price > self.price:
 			return self.price
 		else:
 			return None
+	"""
 
+class SellerProduct(models.Model):
+	product = models.ForeignKey(Product, unique=False)
+	seller = models.ForeignKey('accounts.User_Details', unique=False)
+	price = models.DecimalField(max_digits=9,decimal_places=2)
+	old_price = models.DecimalField(max_digits=9,decimal_places=2,
+		blank=True,default=0.00)
+	quantity = models.IntegerField(default=0)
+	added_at = models.DateTimeField(auto_now_add=True)

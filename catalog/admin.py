@@ -1,12 +1,11 @@
 from django.contrib import admin
-
 # Register your models here.
 from .models import Product, Category
 
 @admin.register(Product)
 class ProductAdmin(admin.ModelAdmin):
 	search_fields = ['name']
-	list_display = ('name', 'brand', 'price')
+	list_display = ('name', 'brand')
 
 # no need of this line
 #admin.site.register(Product, ProductAdmin)
