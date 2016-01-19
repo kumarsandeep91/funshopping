@@ -3,21 +3,20 @@
 {% block site_wrapper %}
 {% load staticfiles %}
 	<div class="row">
-		<div class="col-sm-12 col-md-6 text-center">
-			<button type="button" class="btn btn-primary">Add Product</button>
-		</div>
-		<div class="col-sm-12 col-md-6 text-center">
-			<button type="button" class="btn btn-primary">Update Product</button>
+		<div class="col-sm-12 text-right">
+			<button type="button" class="btn btn-primary btn-lg">
+  				<span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add Product
+			</button>
 		</div>
 		<hr />
 		<!--table for product details-->
 		<div class="container">
-		  <h2 class="text-center">Status</h2>                                                   
+		  <h2 class="text-center">Inventory</h2>                                                   
 		  <div class="table-responsive">          
 		  	<table class="table">
 				<thead>
 			    	<tr>
-				        <th>PID</th>
+				        <th>Product ID</th>
 				        <th>Added At</th>
 				        <th>Name</th>
 				        <th>Price</th>
@@ -27,15 +26,17 @@
 			    	</tr>
 			    </thead>
 			    <tbody>
+			    {% for product in details %}
 			    	<tr>
-				        <td>1</td>
-				        <td>#####</td>
-				        <td>ipod</td>
-				        <td>$250</td>
-				        <td>35</td>
-				        <td>5</td>
-				        <td>30</td>
+				        <td>{{ product.product.id }}</td>
+				        <td>{{ product.added_at }}</td>
+				        <td>{{ product.product.name }}</td>
+				        <td>{{ product.price }}</td>
+				        <td>{{ product.quantity }}</td>
+				        <td>#######</td>
+				        <td>#######</td>
 			    	</tr>
+			    {% endfor %}
 			    </tbody>
 			</table>
 		  </div>

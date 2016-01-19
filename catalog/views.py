@@ -1,5 +1,5 @@
 from django.shortcuts import get_object_or_404, render_to_response, redirect
-from .models import Category, Product
+from .models import Category, Product, SellerProduct
 from django.template import RequestContext
 from django.core import urlresolvers
 from cart import cart
@@ -14,7 +14,8 @@ def index(request, template_name="catalog/catalog.html"):
 	page_title = 'A Online Store'
 	u = User_Details.objects.get(user=request.user.id)
 	if u.u_type == 1:
-		
+		# Retriving seller's product details
+		details = SellerProduct.objects.filter(seller=u)
 		template_name="catalog/seller.html"
 		return render_to_response(template_name, locals(),
 			context_instance=RequestContext(request))

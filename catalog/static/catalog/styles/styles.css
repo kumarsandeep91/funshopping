@@ -142,3 +142,15 @@
 .service-image-left > center > img,.service-image-right > center > img{
 	max-height: 155px;
 }
+
+/**********************************Fixed Footer at bottom*****************************************/
+.footer {
+    position: fixed;
+    height: auto;
+    bottom: 0;
+    width: 100%;
+}
+.footer > .container {
+	padding-right: 15px;
+	padding-left: 15px;
+}

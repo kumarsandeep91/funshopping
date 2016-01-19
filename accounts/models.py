@@ -15,3 +15,5 @@ class User_Details(models.Model):
 	address = models.TextField(default="no address")
 	contact = models.BigIntegerField(default=1234567890)
 	image = models.CharField(max_length=50, default="default.png")
+	def __str__(self):
+		return self.user.username
