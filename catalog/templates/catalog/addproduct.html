@@ -1,0 +1,56 @@
+{% extends "catalog/base.html" %}
+
+{% block site_wrapper %}
+{% load staticfiles %}
+
+	<div class="container">
+		<form role="form">
+	  		<div class="form-group">
+			    <label for="category">Category</label>
+			    <select required class="form-control" name="category" id="category">
+			    	<option value="">None</option>
+			    {% for category in c %}
+    				<option value="{{ category.slug }}">{{ category.name }}</option>
+			    {% endfor %}
+  				</select>
+			</div>
+	  		<div class="form-group">
+			    <label for="product">Product</label>
+			    <select required class="form-control" name="product" id="product">
+			    	<option value="">None</option>
+			    <!--
+			    {% for product in p %}
+    				<option value="{{ product.slug }}">{{ product.name }}</option>
+			    {% endfor %}
+			    -->
+
+  				</select>
+			</div>
+			<div class="form-group">
+			    <label for="quantity">Quantity</label>
+			    <input type="text" class="form-control" id="quantity">
+			</div>
+	  		<button type="submit" class="btn btn-primary">Add</button>
+		</form>
+	</div>
+	<script type="text/javascript">
+		
+		$(document).ready(function(){
+		    $("#category").click(function(){
+		        $("#product").load("/catalog/getproduct/",
+		        	{
+		        		cat: $("#category option:selected").val(),
+		        		csrfmiddlewaretoken: '{{csrf_token}}'
+		        	} ,
+		        	function(responseTxt, statusTxt, xhr){
+		            if(statusTxt == "error")
+		                alert("Error: " + xhr.status + ": " + xhr.statusText);
+		        });
+		    });
+		});
+	</script>
+
+{% endblock %}
+
+
+

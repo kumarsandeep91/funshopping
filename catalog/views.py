@@ -3,7 +3,7 @@ from .models import Category, Product, SellerProduct
 from django.template import RequestContext
 from django.core import urlresolvers
 from cart import cart
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, HttpResponse
 from cart.forms import ProductAddToCartForm
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
@@ -21,7 +21,6 @@ def index(request, template_name="catalog/catalog.html"):
 			context_instance=RequestContext(request))
 	else:
 		products = Product.objects.all()
-		
 		return render_to_response(template_name, locals(),
 			context_instance=RequestContext(request))
 
@@ -37,13 +36,17 @@ def show_category(request, category_slug, template_name="catalog/category.html")
 def show_product(request, product_slug, template_name="catalog/product.html"):
 	p = get_object_or_404(Product, slug=product_slug)
 	categories = p.categories.filter(is_active=True)
+	p_detail = SellerProduct.objects.filter(product=p)
+	price = p.price
+	old_price = p.old_price
+	quantity = 0
+	for detail in p_detail:
+		#retriving total quantity of a product
+		quantity += detail.quantity
 	name = p.name
 	brand = p.brand
 	sku = p.sku
-	price = p.price
-	old_price = p.old_price
 	image = p.image
-	quantity = p.quantity
 	description = p.description
 	
 	meta_keywords = p.meta_keywords
@@ -72,3 +75,25 @@ def show_product(request, product_slug, template_name="catalog/product.html"):
 	return render_to_response(template_name, locals(),
 		context_instance=RequestContext(request))
 
+#Add product to the catalog
+@login_required
+def addproduct(request, template_name="catalog/addproduct.html"):
+	u = User_Details.objects.get(user=request.user.id)
+	if u.u_type == 0:
+		return redirect('/catalog')
+	else:
+		c = Category.objects.all()
+		p = Product.objects.all()
+		return render_to_response(template_name, locals(),
+			context_instance=RequestContext(request))
+
+@login_required
+def getproduct(request):
+	postdata = request.POST.copy()
+	category = postdata['cat']
+	products = Product.objects.filter(categories=Category.objects.get(slug=category))
+	result = ""
+	for p in products:
+		result += "<option>" + p.name + "</option>"
+
+	return HttpResponse(result)

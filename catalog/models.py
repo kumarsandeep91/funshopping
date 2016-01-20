@@ -34,9 +34,9 @@ class Product(models.Model):
 	brand = models.CharField(max_length=50)
 	sku = models.CharField(max_length=50)
 	#added to SellerProduct model
-	#price = models.DecimalField(max_digits=9,decimal_places=2)
-	#old_price = models.DecimalField(max_digits=9,decimal_places=2,
-	#	blank=True,default=0.00)
+	price = models.DecimalField(max_digits=9,decimal_places=2)
+	old_price = models.DecimalField(max_digits=9,decimal_places=2,
+		blank=True,default=0.00)
 	image = models.CharField(max_length=50)
 	is_active = models.BooleanField(default=True)
 	is_bestseller = models.BooleanField(default=False)
@@ -59,19 +59,17 @@ class Product(models.Model):
 	@models.permalink
 	def get_absolute_url(self):
 		return ('catalog_product', (), { 'product_slug': self.slug })
-	"""
 	def sale_price(self):
 		if self.old_price > self.price:
 			return self.price
 		else:
 			return None
-	"""
 
 class SellerProduct(models.Model):
 	product = models.ForeignKey(Product, unique=False)
 	seller = models.ForeignKey('accounts.User_Details', unique=False)
-	price = models.DecimalField(max_digits=9,decimal_places=2)
-	old_price = models.DecimalField(max_digits=9,decimal_places=2,
-		blank=True,default=0.00)
+	#price = models.DecimalField(max_digits=9,decimal_places=2)
+	#old_price = models.DecimalField(max_digits=9,decimal_places=2,
+	#	blank=True,default=0.00)
 	quantity = models.IntegerField(default=0)
 	added_at = models.DateTimeField(auto_now_add=True)

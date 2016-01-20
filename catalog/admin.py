@@ -5,7 +5,7 @@ from .models import Product, Category, SellerProduct
 @admin.register(Product)
 class ProductAdmin(admin.ModelAdmin):
 	search_fields = ['name']
-	list_display = ('name', 'brand')
+	list_display = ('name', 'brand', 'price')
 
 # no need of this line
 #admin.site.register(Product, ProductAdmin)
@@ -18,4 +18,4 @@ class CategoryAdmin(admin.ModelAdmin):
 @admin.register(SellerProduct)
 class CategoryAdmin(admin.ModelAdmin):
 	search_fields = ['product']
-	list_display = ('product', 'seller', 'price', 'quantity', 'added_at')
+	list_display = ('product', 'seller', 'quantity', 'added_at')

@@ -33,7 +33,11 @@
 								Now: $ {{ price }}
 								{% else %}
 								Price: $ {{ price }}
-							{% endif %}		
+							{% endif %}	
+							<br />
+							{% if quantity > 0 %}
+								Quantity: {{ quantity }}
+							{% endif %}	
 						</div>
 						{% if quantity > 0 %}
 							<div class="product-stock">In Stock</div>
